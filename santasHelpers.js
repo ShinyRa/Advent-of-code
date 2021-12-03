@@ -1,3 +1,6 @@
+let fs = require("fs");
+let readline = require("readline");
+
 /**
  * Read file contents to array
  *
@@ -6,21 +9,18 @@
  *
  * @returns Array<Any>
  */
-
 const readToArray = async (filename, typeConverter = null) => {
-  let fs = require("fs");
-  let readline = require("readline");
-
   return new Promise((resolve, reject) => {
     const data = [];
     let stream = fs.createReadStream(filename, "utf-8");
+    stream.on("error", reject);
 
-    var readLine = readline.createInterface({
+    let readLine = readline.createInterface({
       input: stream,
     });
 
     readLine
-      .on("line", function (chunk) {
+      .on("line", (chunk) => {
         data.push(typeConverter ? typeConverter(chunk) : chunk);
       })
       .on("close", () => {
