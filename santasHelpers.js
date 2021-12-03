@@ -2,7 +2,7 @@
  * Read file contents to array
  *
  * @param String    filename
- * @param () => Any typeConverter
+ * @param () => Any optional typeConverter to convert values
  *
  * @returns Array<Any>
  */

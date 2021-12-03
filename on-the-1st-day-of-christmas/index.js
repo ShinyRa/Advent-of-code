@@ -1,10 +1,14 @@
 let readToArray = require("../santasHelpers");
 
 (async () => {
-  let sensorData = [];
-  //   let depthIncreases = 0;
+  const sensorData = await readToArray("sensorData.txt", parseInt);
+  let depthIncreases = 0;
+  let lastMeasurement;
 
-  sensorData = await readToArray("sensorData.txt", parseInt);
+  sensorData.map((measurement) => {
+    measurement > lastMeasurement ? depthIncreases++ : null;
+    lastMeasurement = measurement;
+  });
 
-  console.log(sensorData);
+  console.log(depthIncreases);
 })();
