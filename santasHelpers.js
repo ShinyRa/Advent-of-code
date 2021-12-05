@@ -29,4 +29,6 @@ const readToArray = async (filename, typeConverter = null) => {
   });
 };
 
-module.exports = readToArray;
+const addPredicate = (prev, curr) => prev + curr;
+
+module.exports = { readToArray, addPredicate };
