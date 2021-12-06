@@ -13,15 +13,14 @@ class BingoCard {
   };
   hasWon = (numbers) => {
     let hasWon = false;
-    this.rows.map((row) => {
-      if (this.winningLine(row, numbers)) {
-        hasWon = true;
-      }
-    });
 
     [...new Array(this.rows[0].length)].map((_, col) => {
       let column = [];
+
       this.rows.map((row) => {
+        if (this.winningLine(row, numbers)) {
+          hasWon = true;
+        }
         column.push(row[col]);
       });
 
