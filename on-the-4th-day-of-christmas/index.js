@@ -1,4 +1,8 @@
-let { readToArray, addPredicate } = require("../santasHelpers");
+let {
+  readToArray,
+  addPredicate,
+  splitDelimiterToArray,
+} = require("../santasHelpers");
 class BingoCard {
   rows = [];
 
@@ -44,7 +48,7 @@ class BingoCard {
 
 (async () => {
   const bingoCardData = await readToArray("bingoCards.txt");
-  const bingoBalls = (await readToArray("drawOrder.txt"))[0].split(",");
+  const bingoBalls = await splitDelimiterToArray("drawOrder.txt");
   const bingoCards = initializeBingoCards(bingoCardData);
 
   let [quickestWin, slowestWin] = [
