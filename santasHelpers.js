@@ -29,12 +29,15 @@ const readToArray = async (filename, typeConverter = null) => {
   });
 };
 
-const splitDelimiterToArray = async (
+const splitWithDelimiterToArray = async (
   filename,
   typeConverter = null,
   delimiter = ","
-) => (await readToArray(filename, typeConverter))[0].split(delimiter);
+) =>
+  (await readToArray(filename))[0]
+    .split(delimiter)
+    .map((entry) => (typeConverter ? typeConverter(entry) : entry));
 
 const addPredicate = (prev, curr) => prev + curr;
 
-module.exports = { readToArray, splitDelimiterToArray, addPredicate };
+module.exports = { readToArray, splitWithDelimiterToArray, addPredicate };
