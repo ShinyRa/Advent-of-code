@@ -12,6 +12,7 @@ let { readToArray, addPredicate } = require("../santasHelpers");
   [...signalPatterns].forEach((sequence) => {
     digits.push(decryptSequence(sequence));
   });
+
   console.log(digits.map((digit) => parseInt(digit)).reduce(addPredicate));
 })();
 
@@ -87,71 +88,64 @@ const decryptSequence = (sequence) => {
       .reduce(addPredicate);
   });
 
+  const findSegmentByCondition = (find) =>
+    segments[segmentsOccurance.findIndex(find)];
+
   sidesMappedToSegments.set(
     "TOP",
-    [...mappedToDigit.get(7)]
-      .filter((letter) => ![...mappedToDigit.get(1)].includes(letter))
-      .join("")
+    [...mappedToDigit.get(7)].filter(
+      (letter) => ![...mappedToDigit.get(1)].includes(letter)
+    )
   );
 
   sidesMappedToSegments.set(
     "LEFT_BOTTOM",
-    segments[segmentsOccurance.findIndex((segment) => segment === 3)]
+    findSegmentByCondition((segment) => segment === 3)
   );
 
   sidesMappedToSegments.set(
     "BOTTOM",
-    segments[
-      segmentsOccurance.findIndex(
-        (segment, index) =>
-          segment === 6 && segments[index] != sidesMappedToSegments.get("TOP")
-      )
-    ]
+    findSegmentByCondition(
+      (segment, index) =>
+        segment === 6 && segments[index] != sidesMappedToSegments.get("TOP")
+    )
   );
 
   sidesMappedToSegments.set(
     "RIGHT_TOP",
-    segments[
-      segmentsOccurance.findIndex(
-        (segment, index) =>
-          segment === 4 && [...mappedToDigit.get(1)].includes(segments[index])
-      )
-    ]
+    findSegmentByCondition(
+      (segment, index) =>
+        segment === 4 && [...mappedToDigit.get(1)].includes(segments[index])
+    )
   );
 
   sidesMappedToSegments.set(
     "RIGHT_BOTTOM",
-    segments[
-      segmentsOccurance.findIndex(
-        (segment, index) =>
-          segment === 5 && [...mappedToDigit.get(1)].includes(segments[index])
-      )
-    ]
+    findSegmentByCondition(
+      (segment, index) =>
+        segment === 5 && [...mappedToDigit.get(1)].includes(segments[index])
+    )
   );
 
   sidesMappedToSegments.set(
     "LEFT_TOP",
-    segments[
-      segmentsOccurance.findIndex(
-        (segment, index) =>
-          segment === 4 &&
-          segments[index] != sidesMappedToSegments.get("RIGHT_TOP")
-      )
-    ]
+    findSegmentByCondition(
+      (segment, index) =>
+        segment === 4 &&
+        segments[index] != sidesMappedToSegments.get("RIGHT_TOP")
+    )
   );
 
   sidesMappedToSegments.set(
     "CENTER",
-    segments[
-      segmentsOccurance.findIndex(
-        (segment, index) =>
-          segment === 5 &&
-          segments[index] != sidesMappedToSegments.get("RIGHT_BOTTOM")
-      )
-    ]
+    findSegmentByCondition(
+      (segment, index) =>
+        segment === 5 &&
+        segments[index] != sidesMappedToSegments.get("RIGHT_BOTTOM")
+    )
   );
 
-  let out = "";
+  let outputDigits = "";
 
   output
     .trim()
@@ -162,12 +156,11 @@ const decryptSequence = (sequence) => {
         let decrypted = structure
           .map((side) => sidesMappedToSegments.get(side))
           .sort();
-        console.log(toFind.join(""), decrypted.join(""));
         if (toFind.join("") == decrypted.join("")) {
-          out += index.toString();
+          outputDigits += index.toString();
         }
       });
     });
 
-  return out;
+  return outputDigits;
 };
