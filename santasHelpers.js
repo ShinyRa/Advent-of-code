@@ -39,5 +39,11 @@ const splitWithDelimiterToArray = async (
     .map((entry) => (typeConverter ? typeConverter(entry) : entry));
 
 const addPredicate = (prev, curr) => prev + curr;
+const sortNumericPredicate = (a, b) => a - b;
 
-module.exports = { readToArray, splitWithDelimiterToArray, addPredicate };
+module.exports = {
+  readToArray,
+  sortNumericPredicate,
+  splitWithDelimiterToArray,
+  addPredicate,
+};
