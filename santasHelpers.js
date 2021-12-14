@@ -21,7 +21,9 @@ const readToArray = async (filename, typeConverter = null) => {
 
     readLine
       .on("line", (chunk) => {
-        data.push(typeConverter ? typeConverter(chunk) : chunk);
+        if (chunk.length > 0) {
+          data.push(typeConverter ? typeConverter(chunk) : chunk);
+        }
       })
       .on("close", () => {
         resolve(data);
